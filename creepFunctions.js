@@ -91,7 +91,7 @@ Creep.prototype.pickupResources = function (pickupResources) {
 
 Creep.prototype.pickupResources = function (pickupResources) {
     let droppedResource = this.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {
-        filter: (s) => s.resourceType === RESOURCE_ENERGY && s.energy >= this.store.getCapacity()
+        filter: (s) => s.resourceType === RESOURCE_ENERGY
     });
     if (this.pos.isNearTo(droppedResource)) {
         this.pickup(droppedResource, RESOURCE_ENERGY)

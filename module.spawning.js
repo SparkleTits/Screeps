@@ -145,7 +145,7 @@ module.exports = {
                     } else {
                         minCreeps["upgrader"] = 2
                     }
-                } else if (room.storage && room.storage.store[RESOURCE_ENERGY] >= 30000) {
+                } else if (room.storage && room.storage.store[RESOURCE_ENERGY] >= 25000) {
                     minCreeps["upgrader"] = 1
                     if (stage <= 5) {
                         minCreeps["upgrader"] = 2
@@ -239,15 +239,14 @@ module.exports = {
                         extraCost: 150,
                         sliceAmount: 36
                     },
-                        {
-                            stage: 1,
-                            defaultParts: [],
-                            defaultCost: 0,
-                            extraParts: [CARRY, MOVE],
-                            extraCost: 100,
-                            sliceAmount: 50
-                        }
-                    ], "transport");
+                    {
+                        stage: 1,
+                        defaultParts: [],
+                        defaultCost: 0,
+                        extraParts: [CARRY, MOVE],
+                        extraCost: 100,
+                        sliceAmount: 50
+                    }], "transport");
 
                 let harvester1Body = roleValues(
                     [{
@@ -258,31 +257,30 @@ module.exports = {
                         extraCost: 250,
                         sliceAmount: 13
                     },
-                        {
-                            stage: 5,
-                            defaultParts: [],
-                            defaultCost: 0,
-                            extraParts: [WORK, WORK, MOVE],
-                            extraCost: 250,
-                            sliceAmount: 12
-                        },
-                        {
-                            stage: 3,
-                            defaultParts: [],
-                            defaultCost: 0,
-                            extraParts: [WORK, WORK, MOVE],
-                            extraCost: 250,
-                            sliceAmount: 12
-                        },
-                        {
-                            stage: 1,
-                            defaultParts: [MOVE],
-                            defaultCost: 50,
-                            extraParts: [WORK],
-                            extraCost: 100,
-                            sliceAmount: 9
-                        }
-                    ], "harvester1")
+                    {
+                        stage: 5,
+                        defaultParts: [],
+                        defaultCost: 0,
+                        extraParts: [WORK, WORK, MOVE],
+                        extraCost: 250,
+                        sliceAmount: 12
+                    },
+                    {
+                        stage: 3,
+                        defaultParts: [],
+                        defaultCost: 0,
+                        extraParts: [WORK, WORK, MOVE],
+                        extraCost: 250,
+                        sliceAmount: 12
+                    },
+                    {
+                        stage: 1,
+                        defaultParts: [MOVE],
+                        defaultCost: 50,
+                        extraParts: [WORK],
+                        extraCost: 100,
+                        sliceAmount: 9
+                    }], "harvester1")
                 let harvester2Body = roleValues(
                     [{
                         stage: 6,
@@ -292,31 +290,30 @@ module.exports = {
                         extraCost: 250,
                         sliceAmount: 13
                     },
-                        {
-                            stage: 5,
-                            defaultParts: [],
-                            defaultCost: 0,
-                            extraParts: [WORK, WORK, MOVE],
-                            extraCost: 250,
-                            sliceAmount: 12
-                        },
-                        {
-                            stage: 3,
-                            defaultParts: [],
-                            defaultCost: 0,
-                            extraParts: [WORK, WORK, MOVE],
-                            extraCost: 250,
-                            sliceAmount: 12
-                        },
-                        {
-                            stage: 1,
-                            defaultParts: [MOVE],
-                            defaultCost: 50,
-                            extraParts: [WORK],
-                            extraCost: 100,
-                            sliceAmount: 9
-                        }
-                    ], "harvester2")
+                    {
+                        stage: 5,
+                        defaultParts: [],
+                        defaultCost: 0,
+                        extraParts: [WORK, WORK, MOVE],
+                        extraCost: 250,
+                        sliceAmount: 12
+                    },
+                    {
+                        stage: 3,
+                        defaultParts: [],
+                        defaultCost: 0,
+                        extraParts: [WORK, WORK, MOVE],
+                        extraCost: 250,
+                        sliceAmount: 12
+                    },
+                    {
+                        stage: 1,
+                        defaultParts: [MOVE],
+                        defaultCost: 50,
+                        extraParts: [WORK],
+                        extraCost: 100,
+                        sliceAmount: 9
+                    }], "harvester2")
 
                 let upgraderBody = roleValues(
                     [{
@@ -327,31 +324,30 @@ module.exports = {
                         extraCost: 250,
                         sliceAmount: 24
                     },
-                        {
-                            stage: 3,
-                            defaultParts: [CARRY, CARRY],
-                            defaultCost: 100,
-                            extraParts: [WORK, WORK, MOVE],
-                            extraCost: 250,
-                            sliceAmount: 25
-                        },
-                        {
-                            stage: 2,
-                            defaultParts: [CARRY, CARRY],
-                            defaultCost: 100,
-                            extraParts: [WORK, WORK, MOVE],
-                            extraCost: 250,
-                            sliceAmount: 25
-                        },
-                        {
-                            stage: 1,
-                            defaultParts: [],
-                            defaultCost: 0,
-                            extraParts: [WORK, WORK, CARRY, MOVE],
-                            extraCost: 300,
-                            sliceAmount: 25
-                        }
-                    ], "upgrader")
+                    {
+                        stage: 3,
+                        defaultParts: [CARRY, CARRY],
+                        defaultCost: 100,
+                        extraParts: [WORK, WORK, MOVE],
+                        extraCost: 250,
+                        sliceAmount: 25
+                    },
+                    {
+                        stage: 2,
+                        defaultParts: [CARRY, CARRY],
+                        defaultCost: 100,
+                        extraParts: [WORK, WORK, MOVE],
+                        extraCost: 250,
+                        sliceAmount: 25
+                    },
+                    {
+                        stage: 1,
+                        defaultParts: [],
+                        defaultCost: 0,
+                        extraParts: [WORK, WORK, CARRY, MOVE],
+                        extraCost: 300,
+                        sliceAmount: 25
+                    }], "upgrader")
 
                 let builderBody = roleValues(
                     [{
@@ -362,14 +358,14 @@ module.exports = {
                         extraCost: 200,
                         sliceAmount: 24
                     },
-                        {
-                            stage: 1,
-                            defaultParts: [],
-                            defaultCost: 0,
-                            extraParts: [WORK, CARRY, MOVE, MOVE],
-                            extraCost: 250,
-                            sliceAmount: 24
-                        }], "builder")
+                    {
+                        stage: 1,
+                        defaultParts: [],
+                        defaultCost: 0,
+                        extraParts: [WORK, CARRY, MOVE, MOVE],
+                        extraCost: 250,
+                        sliceAmount: 24
+                    }], "builder")
 
                 let barricaderBody = roleValues(
                     [{
@@ -380,14 +376,14 @@ module.exports = {
                         extraCost: 300,
                         sliceAmount: 25
                     },
-                        {
-                            stage: 1,
-                            defaultParts: [],
-                            defaultCost: 0,
-                            extraParts: [WORK, CARRY, MOVE, MOVE],
-                            extraCost: 250,
-                            sliceAmount: 24
-                        }], "barricader")
+                    {
+                        stage: 1,
+                        defaultParts: [],
+                        defaultCost: 0,
+                        extraParts: [WORK, CARRY, MOVE, MOVE],
+                        extraCost: 250,
+                        sliceAmount: 24
+                    }], "barricader")
 
                 let bodies = [harvester1Body, harvester2Body, transportBody, upgraderBody, builderBody, barricaderBody]
 
