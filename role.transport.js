@@ -1,72 +1,112 @@
 let roleTransport = {
 
-    run: function (creep, spawn) {
+    run: function (creep) {
 
         creep.checkIfFull()
 
-        // PICK UP RESOURCES
+
+        let spawnEnergyCapacity = 0.99
+        let towerEnergyCapacity = 0.75
+        let spawnAndExtensions = creep.room.find(FIND_STRUCTURES, {
+            filter: (structure) => {
+                return (structure.structureType === STRUCTURE_EXTENSION || structure.structureType === STRUCTURE_SPAWN) && structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
+            }
+        })
+        let towers = creep.room.find(FIND_STRUCTURES, {
+            filter: (s) => s.structureType === STRUCTURE_TOWER
+        })
         let droppedEnergy = creep.room.find(FIND_DROPPED_RESOURCES, {
             filter: (s) => s.resourceType === RESOURCE_ENERGY && s.energy >= creep.store.getCapacity()
         })
 
-        if (droppedEnergy[0] && creep.memory.isFull === false) {
+
+        if ((creep.room.energyAvailable < (creep.room.energyCapacityAvailable * spawnEnergyCapacity) || towers.store(RESOURCE_ENERGY) < (towers.store.getCapacity(RSOURCE_ENERGY) * towerEnergyCapacity)) && creep.room.storage.store[RESOURCE_ENERGY] > 0) {
+            creep.memory.hauling = true
+        } else {
+            creep.memory.hauling = false
+        }
+
+        // PICK UP RESOURCES
+        if (droppedEnergy[0] && creep.memory.hauling === false) {
             creep.memory.pickingUp = true
-            creep.pickupResources()
         } else {
             creep.memory.pickingUp = false
         }
 
-        // HAUL FROM STORAGE TO SPAWN / EXTENSIONS or TOWER
-        if (creep.memory.pickingUp === false) {
-            if (creep.memory.isFull === false && creep.room.storage.store[RESOURCE_ENERGY] > 0) {
-                if (creep.room.energyAvailable < (creep.room.energyCapacityAvailable * 0.99)) {
-                    creep.memory.hauling = true
-                    creep.hauling()
+
+        console.log(towers.store.getCapacity(RESOURCE_ENERGY))
+
+
+        if (creep.memory.pickingUp === true) {
+            creep.pickupResources()
+            if (creep.room.storage && creep.memory.isFull) {
+                if (creep.pos.isNearTo(creep.room.storage)) {
+                    creep.transfer(creep.room.storage, RESOURCE_ENERGY)
                 } else {
-                    let tower = this.room.find(FIND_STRUCTURES, {
-                        filter: (s) => s.structureType === STRUCTURE_TOWER
-                    })
-                    if (tower.energy < (tower.energyCapacity * 0.75)) {
-                        creep.memory.hauling = true
+                    creep.moveTo(creep.room.storage, {visualizePathStyle: {stroke: '#ffffff'}})
+                }
+            } else if (!creep.room.storage && creep.memory.isFull) {
+                let spawnAndExtensionsPOS = creep.pos.findClosestByRange(spawnAndExtensions)
+
+                if (creep.pos.isNearTo(spawnAndExtensionsPOS)) {
+                    creep.transfer(spawnAndExtensionsPOS, RESOURCE_ENERGY)
+                } else {
+                    creep.moveTo(spawnAndExtensionsPOS, {visualizePathStyle: {stroke: '#ffffff'}})
+                }
+            }
+        }
+
+
+        if (creep.memory.hauling === true) {
+            if (creep.room.storage.store[RESOURCE_ENERGY] > 0) {
+                if (creep.room.energyAvailable < (creep.room.energyCapacityAvailable * spawnEnergyCapacity)) {
+                    if (creep.memory.isFull === false) {
                         creep.hauling()
+                    } else if (creep.store.getCapacity(RESOURCE_ENERGY) > 0) {
+                        let spawnAndExtension = creep.pos.findClosestByRange(spawnAndExtensions)
+                        if (creep.pos.isNearTo(spawnAndExtension)) {
+                            creep.transfer(spawnAndExtension, RESOURCE_ENERGY)
+                        } else {
+                            creep.moveTo(spawnAndExtension, {visualizePathStyle: {stroke: '#ffffff'}})
+                        }
+                    }
+                } else if (towers.store(RSOURCE_ENERGY) < (towers.store.getCapacity(RSOURCE_ENERGY) * towerEnergyCapacity)) {
+                    if (creep.memory.isFull === false) {
+                        creep.hauling()
+                    } else if (creep.store.getCapacity(RESOURCE_ENERGY) > 0) {
+                        let tower = creep.pos.findClosestByRange(towers)
+                        if (creep.pos.isNearTo(tower)) {
+                            creep.transfer(tower, RESOURCE_ENERGY)
+                        } else {
+                            creep.moveTo(tower, {visualizePathStyle: {stroke: '#ffffff'}})
+                        }
                     }
                 }
             }
         }
 
-        if (creep.memory.hauling === false && creep.memory.pickingUp === false && creep.memory.isFull === false) {
 
-                let sources = creep.pos.findClosestByRange(FIND_STRUCTURES, {filter: (i) => i.structureType === STRUCTURE_CONTAINER && i.store[RESOURCE_ENERGY] >= 200});
+        if (creep.memory.hauling === false && creep.memory.pickingUp === false) {
+            if (creep.memory.isFull === false) {
+                let containers = creep.pos.findClosestByRange(FIND_STRUCTURES, {filter: (i) => i.structureType === STRUCTURE_CONTAINER && i.store[RESOURCE_ENERGY] >= 200});
 
-                if (creep.withdraw(sources, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-
-                    creep.moveTo(sources, {visualizePathStyle: {stroke: '#ffcc00'}});
-
-            }
-        } else if (creep.memory.pickingUp === false) {
-            if (creep.memory.hauling === true && creep.memory.isFull === true) {
-                let targets = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                    filter: (structure) => {
-                        return (structure.structureType === STRUCTURE_TOWER || structure.structureType === STRUCTURE_EXTENSION || structure.structureType === STRUCTURE_SPAWN) && structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
-                    }
-                });
-                if (creep.transfer(targets, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-
-                    creep.moveTo(targets, {visualizePathStyle: {stroke: '#ffffff'}});
-
+                if (creep.withdraw(containers, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+                    creep.moveTo(containers, {visualizePathStyle: {stroke: '#ffcc00'}});
                 }
-
             } else {
-                let targets = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                    filter: (structure) => {
-
-                        return (structure.structureType === STRUCTURE_TOWER || structure.structureType === STRUCTURE_STORAGE || structure.structureType === STRUCTURE_EXTENSION || structure.structureType === STRUCTURE_SPAWN) && structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
+                if (creep.room.storage) {
+                    if (creep.pos.isNearTo(creep.room.storage)) {
+                        creep.transfer(creep.room.storage, RESOURCE_ENERGY)
+                    } else {
+                        creep.moveTo(creep.room.storage, {visualizePathStyle: {stroke: '#ffffff'}})
                     }
-                });
-                if (creep.transfer(targets, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-
-                    creep.moveTo(targets, {visualizePathStyle: {stroke: '#ffffff'}});
-
+                } else if (!creep.room.storage) {
+                    let spawnAndExtensionsPOS = creep.pos.findClosestByRange(spawnAndExtensions)
+                    if (creep.pos.isNearTo(spawnAndExtensionsPOS)) {
+                        creep.transfer(spawnAndExtensionsPOS, RESOURCE_ENERGY)
+                    } else {
+                        creep.moveTo(spawnAndExtensionsPOS, {visualizePathStyle: {stroke: '#ffffff'}})
+                    }
                 }
             }
         }

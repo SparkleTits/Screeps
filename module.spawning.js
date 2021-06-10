@@ -35,7 +35,9 @@ module.exports = {
 
                 let stage = room.memory.stage
 
-                if (room.energyCapacityAvailable >= 3300) {
+                if (room.storage.store[RESOURCE_ENERGY] >= 300 && creepsOfRole[["transport", room.name]] === 0) {
+                    room.memory.stage = 9
+                } else if (room.energyCapacityAvailable >= 3300) {
                     room.memory.stage = 8
                 } else if (room.energyCapacityAvailable >= 2800) {
                     room.memory.stage = 7
@@ -99,6 +101,9 @@ module.exports = {
                         minCreeps["harvester1"] = 1
                         minCreeps["harvester2"] = 1
                         minCreeps["transport"] = 2
+                        break
+                    case 9:
+                        minCreeps["transport"] = 1
                         break
                 }
 

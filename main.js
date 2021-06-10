@@ -43,12 +43,6 @@ module.exports.loop = function () {
     constants.run()
     spawns.run()
 
-    for (let name in Game.creeps) {
-
-        let creep = Game.creeps[name]
-
-        creep.suicide()
-    }
 
     // clear dead creeps from memory
     for (var name in Memory.creeps) {

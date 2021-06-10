@@ -96,7 +96,7 @@ Creep.prototype.pickupResources = function (pickupResources) {
     if (this.pos.isNearTo(droppedResource)) {
         this.pickup(droppedResource, RESOURCE_ENERGY)
     } else {
-        this.moveTo(droppedResource, {visualizePathStyle: {stroke: '#ffffff'}})
+        this.moveTo(droppedResource, {visualizePathStyle: {stroke: '#ffcc00'}})
     }
 }
 
@@ -108,7 +108,7 @@ Creep.prototype.hauling = function (hauling) {
     if (this.pos.isNearTo(storageAndContainers)) {
         this.withdraw(storageAndContainers, RESOURCE_ENERGY)
     } else {
-        this.moveTo(storageAndContainers, {visualizePathStyle: {stroke: '#ffffff'}})
+        this.moveTo(storageAndContainers, {visualizePathStyle: {stroke: '#ffcc00'}})
     }
 }
 
