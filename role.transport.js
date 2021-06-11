@@ -44,12 +44,16 @@ let roleTransport = {
         if (creep.memory.pickingUp === true) {
             creep.pickupResources()
             if (creep.room.storage && creep.memory.isFull) {
+                creep.say("PU 1")
                 if (creep.pos.isNearTo(creep.room.storage)) {
+                    creep.say("PU 1-1")
                     creep.transfer(creep.room.storage, RESOURCE_ENERGY)
                 } else {
+                    creep.say("PU 1-2")
                     creep.moveTo(creep.room.storage, {visualizePathStyle: {stroke: '#ffffff'}})
                 }
             } else if (!creep.room.storage && creep.memory.isFull) {
+                creep.say("PU 2")
                 if (creep.pos.isNearTo(spawnAndExtensions)) {
                     creep.transfer(spawnAndExtensions, RESOURCE_ENERGY)
                 } else {
@@ -61,10 +65,13 @@ let roleTransport = {
 
         if (creep.memory.hauling === true) {
             if (creep.room.storage.store[RESOURCE_ENERGY] > 0) {
+                creep.say("HAUL 1")
                 if (creep.room.energyAvailable < (creep.room.energyCapacityAvailable * spawnEnergyCapacity)) {
                     if (creep.memory.isFull === false) {
+                        creep.say("HAUL 1-1")
                         creep.hauling()
                     } else if (creep.store.getCapacity(RESOURCE_ENERGY) > 0) {
+                        creep.say("HAUL 1-2")
                         if (creep.pos.isNearTo(spawnAndExtensions)) {
                             creep.transfer(spawnAndExtensions, RESOURCE_ENERGY)
                         } else {
@@ -72,9 +79,12 @@ let roleTransport = {
                         }
                     }
                 } else if (closestTower) {
+                    creep.say("HAUL 2")
                     if (creep.memory.isFull === false) {
+                        creep.say("HAUL 2-1")
                         creep.hauling()
                     } else if (creep.store.getCapacity(RESOURCE_ENERGY) > 0) {
+                        creep.say("HAUL 2-2")
                         if (creep.pos.isNearTo(closestTower)) {
                             creep.transfer(closestTower, RESOURCE_ENERGY)
                         } else {
@@ -88,6 +98,7 @@ let roleTransport = {
 
         if (creep.memory.hauling === false && creep.memory.pickingUp === false) {
             if (creep.memory.isFull === false) {
+                creep.say("NO 1")
                 let containers = creep.pos.findClosestByRange(FIND_STRUCTURES, {filter: (i) => i.structureType === STRUCTURE_CONTAINER && i.store[RESOURCE_ENERGY] >= 200});
 
                 if (creep.pos.isNearTo(containers)) {
@@ -96,6 +107,7 @@ let roleTransport = {
                     creep.moveTo(containers, {visualizePathStyle: {stroke: '#ffcc00'}});
                 }
             } else {
+                creep.say("NO 2")
                 if (creep.room.storage) {
                     if (creep.pos.isNearTo(creep.room.storage)) {
                         creep.transfer(creep.room.storage, RESOURCE_ENERGY)
