@@ -22,8 +22,6 @@ let roleTransport = {
 
 
 
-
-
         if ((creep.room.energyAvailable < (creep.room.energyCapacityAvailable * spawnEnergyCapacity) || closestTower) && creep.room.storage.store[RESOURCE_ENERGY] > 0) {
             creep.memory.hauling = true
         } else {

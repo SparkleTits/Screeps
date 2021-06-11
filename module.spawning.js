@@ -90,7 +90,7 @@ module.exports = {
                     case 6:
                         minCreeps["harvester1"] = 1
                         minCreeps["harvester2"] = 1
-                        minCreeps["transport"] = 3
+                        minCreeps["transport"] = 2
                         break
                     case 7:
                         minCreeps["harvester1"] = 1

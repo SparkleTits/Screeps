@@ -7,15 +7,9 @@ var roleUpgrader = require('role.upgrader');
 var roleBuilder = require("role.builder");
 var roleBarricader = require("role.barricader");
 
-var roleLib = require('roleLib');
 var spawns = require('module.spawning');
 let constants = require("module.constants")
-
-// max creeps
-var harvestersMax = 5;
-var transportsMax = 2;
-var upgradersMax = 2;
-var buildersMax = 1;
+let visuals = require("module.roomVisuals")
 
 module.exports.loop = function () {
 
@@ -44,6 +38,7 @@ module.exports.loop = function () {
     spawns.run()
 
 
+
     // clear dead creeps from memory
     for (var name in Memory.creeps) {
         if (!Game.creeps[name]) {
@@ -54,6 +49,7 @@ module.exports.loop = function () {
 
     for (let rooms in Game.rooms) {
         towers.run();
+        visuals.run()
     }
 
     for (let name in Game.creeps) {

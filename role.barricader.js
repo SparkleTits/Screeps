@@ -1,6 +1,6 @@
 let roleBarricader = {
 
-    run: function (creep, spawn) {
+    run: function (creep) {
 
         if (creep.memory.working && creep.store[RESOURCE_ENERGY] === 0) {
             creep.memory.working = false;
@@ -14,7 +14,7 @@ let roleBarricader = {
         if (!creep.memory.working) {
             let storage = creep.room.storage
             let sources = creep.pos.findClosestByRange(FIND_MY_STRUCTURES, {
-                filter: (struct) => struct.structureType === STRUCTURE_EXTENSION || struct.structureType === STRUCTURE_SPAWN});
+                filter: (s) => (s.structureType === STRUCTURE_CONTAINER || s.structureType === STRUCTURE_STORAGE) && s.store.getUsedCapacity(RESOURCE_ENERGY) > 50});
 
             if (storage) {
                 var storageEnergy = storage.store[RESOURCE_ENERGY]

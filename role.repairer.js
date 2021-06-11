@@ -4,7 +4,9 @@ let roleRepairer = {
 	    
 	    if( creep.store[RESOURCE_ENERGY] === 0) {
 	        
-	        let sources = creep.pos.findClosestByRange(FIND_STRUCTURES, {filter: (i) => i.structureType === STRUCTURE_SPAWN || i.structureType === STRUCTURE_EXTENSION || i.structureType === STRUCTURE_CONTAINER && i.store[RESOURCE_ENERGY] >= 50});
+	        let sources = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+	        	filter: (i) => i.structureType === STRUCTURE_SPAWN || i.structureType === STRUCTURE_EXTENSION || i.structureType === STRUCTURE_CONTAINER && i.store[RESOURCE_ENERGY] >= 50
+	        });
 	        
             if( creep.withdraw(sources, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                 
@@ -14,7 +16,9 @@ let roleRepairer = {
             
         } else {
             
-	        const targets = creep.room.find(FIND_STRUCTURES, {filter: object => object.hits < object.hitsMax && (object.structureType !== STRUCTURE_WALL && object.structureType !== STRUCTURE_RAMPART) || object.hits < 10000 && (object.structureType === STRUCTURE_WALL || object.structureType === STRUCTURE_RAMPART)});
+	        const targets = creep.room.find(FIND_STRUCTURES, {
+	        	filter: object => object.hits < object.hitsMax && (object.structureType !== STRUCTURE_WALL && object.structureType !== STRUCTURE_RAMPART) || object.hits < 10000 && (object.structureType === STRUCTURE_WALL || object.structureType === STRUCTURE_RAMPART)
+	        });
 
 			targets.sort((a, b) => a.hits - b.hits);
 
